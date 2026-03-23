@@ -1,0 +1,60 @@
+{
+    "name": "Audit",
+    "routePrefix": "system.audit",
+    "crtNo": true,
+    "buttons": [
+        "excel",
+        "create",
+        "show",
+        "edit",
+        "destroy"
+    ],
+    "columns": [
+        {
+            "label": "Event",
+            "name": "event",
+            "data": "audits.event",
+            "enum": "LaravelEnso\\Audits\\Enums\\Event",
+            "meta": [
+                "sortable",
+                "slot"
+            ]
+        },
+        {
+            "label": "Auditable Type",
+            "name": "auditable_type",
+            "data": "audits.auditable_type",
+            "meta": [
+                "searchable",
+                "sortable"
+            ]
+        },
+        {
+            "label": "Auditable Id",
+            "name": "auditable_id",
+            "data": "audits.auditable_id",
+            "meta": [
+                "searchable",
+                "sortable"
+            ]
+        },
+        {
+            "label": "Changes",
+            "name": "changes",
+            "data": "audits.changes",
+            "meta": [
+                "slot"
+            ]
+        },
+        {
+            "label": "By",
+            "name": "createdBy",
+            "data": "createdBy",
+            "resource": "LaravelEnso\\Users\\Http\\Resources\\User",
+            "meta": [
+                "slot",
+                "notExportable"
+            ]
+        }
+    ]
+}
