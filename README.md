@@ -1,5 +1,5 @@
 ###  laravel-enso - audits
 Coming soon
 
-Create a Proveider in app extending the AuditServiceProvider, set it in
-bootstrap/providers.php and you are gtg
+Short Notice: Create a ServiceProvider in app extending the AuditServiceProvider included,
+set it in bootstrap/providers.php and you are gtg
