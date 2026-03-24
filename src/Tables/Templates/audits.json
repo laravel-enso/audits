@@ -3,11 +3,7 @@
     "routePrefix": "system.audit",
     "crtNo": true,
     "buttons": [
-        "excel",
-        "create",
-        "show",
-        "edit",
-        "destroy"
+        "excel"
     ],
     "columns": [
         {

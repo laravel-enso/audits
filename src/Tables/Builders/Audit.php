@@ -8,15 +8,17 @@ use LaravelEnso\Tables\Contracts\Table;
 
 class Audit implements Table
 {
-    private const TemplatePath = __DIR__.'/../Templates/audits.json';
+    private const TemplatePath = __DIR__ . '/../Templates/audits.json';
 
     public function query(): Builder
     {
+        $select = [
+            'id', 'event', 'auditable_type', 'auditable_id', 'changes',
+            'created_by', 'created_at'
+        ];
+
         return Model::with(['createdBy.avatar', 'createdBy.person'])
-            ->selectRaw('
-            audits.id, audits.event, audits.auditable_type, audits.auditable_id,
-            audits.changes, audits.created_by, audits.created_at
-        ');
+            ->select($select);
     }
 
     public function templatePath(): string

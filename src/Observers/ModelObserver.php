@@ -13,8 +13,8 @@ class ModelObserver
     public function created(Model $model)
     {
         $changes = $model instanceof Auditable
-               ? $model->only($model->auditableAttributes())
-               : $model->getAttributes();
+            ? $model->only($model->auditableAttributes())
+            : $model->getAttributes();
 
         $this->log(Event::Created, $changes, $model);
     }
@@ -33,8 +33,8 @@ class ModelObserver
     public function deleted(Model $model)
     {
         $changes = $model instanceof Auditable
-             ? $model->only($model->auditableAttributes())
-             : $model->getAttributes();
+            ? $model->only($model->auditableAttributes())
+            : $model->getAttributes();
 
         $this->log(Event::Deleted, $changes, $model);
     }

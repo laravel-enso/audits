@@ -1,7 +1,0 @@
-{
-    "routePrefix": "system.audit",
-    "sections": [{
-        "columns": 2,
-        "fields": []
-    }]
-}
