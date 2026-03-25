@@ -4,7 +4,7 @@ namespace LaravelEnso\Audits\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use LaravelEnso\Audits\Contracts\Auditable;
+use LaravelEnso\Audits\Contracts\RestrictedAuditable;
 use LaravelEnso\Audits\Enums\Event;
 use LaravelEnso\Audits\Models\Audit;
 
@@ -12,7 +12,11 @@ class ModelObserver
 {
     public function created(Model $model)
     {
-        $changes = $model instanceof Auditable
+        if (!$this->shouldAudit($model)) {
+            return;
+        }
+
+        $changes = $model instanceof RestrictedAuditable
             ? $model->only($model->auditableAttributes())
             : $model->getAttributes();
 
@@ -21,10 +25,12 @@ class ModelObserver
 
     public function updated(Model $model)
     {
-        $after = $model instanceof Auditable
+        $after = $model instanceof RestrictedAuditable
             ? Arr::only($model->getDirty(), $model->auditableAttributes())
             : $model->getDirty();
+
         $before = Arr::only($model->getOriginal(), array_keys($after));
+
         $changes = ['before' => $before, 'after' => $after];
 
         $this->log(Event::Updated, $changes, $model);
@@ -32,7 +38,7 @@ class ModelObserver
 
     public function deleted(Model $model)
     {
-        $changes = $model instanceof Auditable
+        $changes = $model instanceof RestrictedAuditable
             ? $model->only($model->auditableAttributes())
             : $model->getAttributes();
 
