@@ -9,7 +9,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->load();
-        $this->publish();
     }
 
     private function load()
@@ -18,15 +17,9 @@ class AppServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 
-    private function publish()
-    {
-        $this->publishes([
-            __DIR__.'/../client/src/js' => base_path('client/src/js'),
-        ], 'audits-assets');
-    }
-
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/../config/audits.php', 'enso.audits');
+        $this->app->register(AuditServiceProvider::class);
     }
 }

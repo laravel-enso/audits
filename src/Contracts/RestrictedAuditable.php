@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Audits\Contracts;
 
-interface Auditable
+interface RestrictedAuditable
 {
     public function auditableAttributes(): array;
 }

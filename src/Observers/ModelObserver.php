@@ -12,10 +12,6 @@ class ModelObserver
 {
     public function created(Model $model)
     {
-        if (!$this->shouldAudit($model)) {
-            return;
-        }
-
         $changes = $model instanceof RestrictedAuditable
             ? $model->only($model->auditableAttributes())
             : $model->getAttributes();
@@ -26,10 +22,10 @@ class ModelObserver
     public function updated(Model $model)
     {
         $after = $model instanceof RestrictedAuditable
-            ? Arr::only($model->getDirty(), $model->auditableAttributes())
-            : $model->getDirty();
+            ? Arr::only($model->getChanges(), $model->auditableAttributes())
+            : $model->getChanges();
 
-        $before = Arr::only($model->getOriginal(), array_keys($after));
+        $before = Arr::only($model->getPrevious(), array_keys($after));
 
         $changes = ['before' => $before, 'after' => $after];
 
