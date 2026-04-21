@@ -17,19 +17,21 @@
             ]
         },
         {
-            "label": "Auditable Type",
+            "label": "Model",
             "name": "auditable_type",
             "data": "audits.auditable_type",
             "meta": [
+                "slot",
                 "searchable",
                 "sortable"
             ]
         },
         {
-            "label": "Auditable Id",
+            "label": "Id",
             "name": "auditable_id",
             "data": "audits.auditable_id",
             "meta": [
+                "slot",
                 "searchable",
                 "sortable"
             ]
