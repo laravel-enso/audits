@@ -1,10 +1,21 @@
 {
     "name": "laravel-enso/audits",
     "type": "library",
-    "description": "",
-    "authors": [],
-    "keywords": [],
-    "homepage": "https://www.laravel-enso.com",
+    "description": "Model auditing endpoints and change-history storage for Laravel Enso",
+    "authors": [{
+        "name": "Adrian Ocneanu",
+        "email": "aocneanu@gmail.com",
+        "homepage": "https://laravel-enso.com",
+        "role": "Developer"
+    }],
+    "keywords": [
+        "laravel-enso",
+        "audits",
+        "audit-log",
+        "history"
+    ],
+    "homepage": "https://github.com/laravel-enso/audits",
+    "license": "MIT",
     "require": {
         "php": ">=8.0"
     },
