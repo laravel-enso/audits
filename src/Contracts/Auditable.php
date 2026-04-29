@@ -1,7 +1,0 @@
-<?php
-
-namespace LaravelEnso\Audits\Contracts;
-
-interface Auditable
-{
-}

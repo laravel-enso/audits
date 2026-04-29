@@ -4,25 +4,28 @@ namespace LaravelEnso\Audits\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use LaravelEnso\Audits\Contracts\RestrictedAuditable;
 use LaravelEnso\Audits\Enums\Event;
 use LaravelEnso\Audits\Models\Audit;
 
 class ModelObserver
 {
-    public function created(Model $model)
+    public function created(Model $model): void
     {
-        $changes = $model instanceof RestrictedAuditable
-            ? $model->only($model->auditableAttributes())
+        $auditableAttributes = $this->auditableAttributes($model);
+
+        $changes = $auditableAttributes !== null
+            ? $model->only($auditableAttributes)
             : $model->getAttributes();
 
         $this->log(Event::Created, $changes, $model);
     }
 
-    public function updated(Model $model)
+    public function updated(Model $model): void
     {
-        $after = $model instanceof RestrictedAuditable
-            ? Arr::only($model->getChanges(), $model->auditableAttributes())
+        $auditableAttributes = $this->auditableAttributes($model);
+
+        $after = $auditableAttributes !== null
+            ? Arr::only($model->getChanges(), $auditableAttributes)
             : $model->getChanges();
 
         $before = Arr::only($model->getPrevious(), array_keys($after));
@@ -32,16 +35,18 @@ class ModelObserver
         $this->log(Event::Updated, $changes, $model);
     }
 
-    public function deleted(Model $model)
+    public function deleted(Model $model): void
     {
-        $changes = $model instanceof RestrictedAuditable
-            ? $model->only($model->auditableAttributes())
+        $auditableAttributes = $this->auditableAttributes($model);
+
+        $changes = $auditableAttributes !== null
+            ? $model->only($auditableAttributes)
             : $model->getAttributes();
 
         $this->log(Event::Deleted, $changes, $model);
     }
 
-    protected function log(Event $event, array $changes, Model $model)
+    protected function log(Event $event, array $changes, Model $model): void
     {
         Audit::create([
             'event' => $event,
@@ -49,5 +54,16 @@ class ModelObserver
             'auditable_id' => $model->id,
             'changes' => $changes,
         ]);
+    }
+
+    private function auditableAttributes(Model $model): ?array
+    {
+        if (method_exists($model, 'auditableAttributes')) {
+            return $model->auditableAttributes();
+        }
+
+        return isset($model->auditableAttributes)
+            ? $model->auditableAttributes
+            : null;
     }
 }

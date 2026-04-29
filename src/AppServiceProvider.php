@@ -6,20 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->load();
     }
 
-    private function load()
+    private function load(): void
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-    }
-
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__.'/../config/audits.php', 'enso.audits');
-        $this->app->register(AuditServiceProvider::class);
     }
 }
